@@ -25,7 +25,7 @@ winston.add(winston.transports.Console, {
 })
 ;(function () {
   var ELASTICSEARCH_URI = process.env.ELASTICSEARCH_URI
-  if (!ELASTICSEARCH_URI) return process.send({ error: { message: 'Invalid connection uri' } })
+  if (!ELASTICSEARCH_URI) return process.send({ error: { message: 'Invalid connection URI' } })
 
   elasticsearch.testConnection(function (err) {
     if (err) {

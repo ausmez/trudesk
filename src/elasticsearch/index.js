@@ -270,7 +270,7 @@ ES.init = function (callback) {
           checkConnection(function (err) {
             if (err) return next(err)
 
-            winston.info('Elasticsearch Running... Connected.')
+            winston.info('Elasticsearch running... Connected.')
             global.esStatus = 'Connected'
             return next()
           })
