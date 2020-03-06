@@ -80,6 +80,7 @@ class TopbarContainer extends React.Component {
   shouldShowBanner () {
     const hasSeen = Cookies.get('trudesk_info_banner_closed') === 'true'
     if (hasSeen) this.showInfoBanner = false
+    this.showInfoBanner = false
   }
 
   closeInfo () {

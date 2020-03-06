@@ -301,9 +301,7 @@ class CreateTicketModal extends React.Component {
               />
             </div>
             <span style={{ marginTop: '6px', display: 'inline-block', fontSize: '11px' }} className={'uk-text-muted'}>
-              Please try to be as specific as possible. Please include any details you think may be relevant, such as
-              {/* eslint-disable-next-line react/no-unescaped-entities */}
-              troubleshooting steps you've taken.
+              Please try to be as specific as possible. Please include any details you think may be relevant, such as troubleshooting steps you've taken.
             </span>
           </div>
           <div className='uk-modal-footer uk-text-right'>
