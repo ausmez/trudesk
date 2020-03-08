@@ -52,7 +52,7 @@ viewController.getData = function (request, cb) {
                 if (!err && setting && setting.value) {
                   viewdata.shortDateFormat = setting.value
                 } else {
-                  viewdata.shortDateFormat = 'MM/DD/YYYY'
+                  viewdata.shortDateFormat = 'DD/MM/YYYY'
                 }
 
                 return done()
@@ -63,7 +63,7 @@ viewController.getData = function (request, cb) {
                 if (!err && setting && setting.value) {
                   viewdata.longDateFormat = setting.value
                 } else {
-                  viewdata.longDateFormat = 'MMM DD, YYYY'
+                  viewdata.longDateFormat = 'DD MMM, YYYY'
                 }
 
                 return done()
@@ -154,7 +154,7 @@ viewController.getData = function (request, cb) {
           if (!err && timezone) {
             viewdata.timezone = timezone.value
           } else {
-            viewdata.timezone = 'America/New_York'
+            viewdata.timezone = 'Australia/Adelaide'
           }
 
           return callback()
@@ -226,7 +226,7 @@ viewController.getData = function (request, cb) {
           viewdata.noticeCookieName = undefined
 
           if (!_.isUndefined(data) && !_.isNull(data)) {
-            viewdata.noticeCookieName = data.name + '_' + moment(data.activeDate).format('MMMDDYYYY_HHmmss')
+            viewdata.noticeCookieName = data.name + '_' + moment(data.activeDate).format('DDMMMYYYY_HHmmss')
           }
 
           return callback()

@@ -1514,7 +1514,7 @@ define([
       return window.trudeskSettingsService.getSettings().shortDateFormat.value
     }
 
-    return 'MM/DD/YYYY'
+    return 'DD/MM/YYYY'
   }
 
   helpers.getLongDateFormat = function () {
@@ -1522,7 +1522,7 @@ define([
       return window.trudeskSettingsService.getSettings().longDateFormat.value
     }
 
-    return 'MMM DD, YYYY'
+    return 'DD MMM, YYYY'
   }
 
   helpers.formatDate = function (date, format) {

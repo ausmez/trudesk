@@ -129,7 +129,7 @@ define('pages/dashboard', [
             var lastUpdated = $('#lastUpdated').find('span')
 
             var formatString = helpers.getLongDateFormat() + ' ' + helpers.getTimeFormat()
-            var formated = moment.utc(_data.lastUpdated, 'MM/DD/YYYY hh:mm:ssa').format(formatString)
+            var formated = moment.utc(_data.lastUpdated, 'DD/MM/YYYY hh:mm:ssa').format(formatString)
 
             lastUpdated.text(formated)
 

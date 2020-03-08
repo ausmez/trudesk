@@ -56,8 +56,8 @@ util.getSettings = function (callback) {
     s.siteUrl = parseSetting(settings, 'gen:siteurl', '')
     s.timezone = parseSetting(settings, 'gen:timezone', 'America/New_York')
     s.timeFormat = parseSetting(settings, 'gen:timeFormat', 'hh:mma')
-    s.shortDateFormat = parseSetting(settings, 'gen:shortDateFormat', 'MM/DD/YYYY')
-    s.longDateFormat = parseSetting(settings, 'gen:longDateFormat', 'MMM DD, YYYY')
+    s.shortDateFormat = parseSetting(settings, 'gen:shortDateFormat', 'DD/MM/YYYY')
+    s.longDateFormat = parseSetting(settings, 'gen:longDateFormat', 'DD MMM, YYYY')
 
     s.hasCustomLogo = parseSetting(settings, 'gen:customlogo', false)
     s.customLogoFilename = parseSetting(settings, 'gen:customlogofilename', '')
