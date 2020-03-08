@@ -470,6 +470,13 @@ ticketsController.single = function (req, res) {
             return g._id
           })
 
+          if (!user.role.isAdmin || !user.role.isAgent) {
+            if (!(ticket.owner._id.equals(req.user._id))) {
+              winston.warn('User access ticket outside of owner - UserId: ' + user._id)
+              return res.redirect('/tickets')
+            }
+          }
+
           if (!_.some(groupIds, ticket.group._id)) {
             if (ticket.group.public && hasPublic) {
               // Blank to bypass

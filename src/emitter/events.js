@@ -106,6 +106,7 @@ var notifications = require('../notifications') // Load Push Events
                     members,
                     function (member, cb) {
                       if (member.deleted) return cb()
+                      if ((!member.role.isAdmin || !member.role.isAgent) && !member._id.equals(ticket.owner._id)) return cb()
                       socketUtils.sendToUser(
                         sharedVars.sockets,
                         sharedVars.usersOnline,

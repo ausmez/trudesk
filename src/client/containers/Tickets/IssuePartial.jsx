@@ -163,7 +163,7 @@ class IssuePartial extends React.Component {
           </div>
         </div>
         {/* Permissions on Fragment for edit */}
-        {this.status !== 3 && helpers.hasPermOverRole(this.props.owner.role, null, 'tickets:update', true) && (
+        {this.status !== 3 /*&& helpers.hasPermOverRole(this.props.owner.role, null, 'tickets:update', true)*/ && (
           <Fragment>
             <div
               className={'edit-issue'}

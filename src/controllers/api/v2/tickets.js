@@ -66,6 +66,12 @@ ticketsV2.get = function (req, res) {
           return g._id
         })
 
+        if (!req.user.role.isAdmin && !req.user.role.isAgent) {
+          queryObject.filter = {
+            owner: [req.user._id]
+          }
+        }
+
         switch (type.toLowerCase()) {
           case 'active':
             queryObject.status = [0, 1, 2]
@@ -94,6 +100,9 @@ ticketsV2.get = function (req, res) {
             try {
               queryObject.filter = JSON.parse(query.filter)
               queryObject.status = queryObject.filter.status
+              if (!req.user.role.isAdmin && !req.user.role.isAgent) {
+                queryObject.filter["owner"] = [req.user._id]
+              }
             } catch (error) {
               winston.warn(error)
             }
