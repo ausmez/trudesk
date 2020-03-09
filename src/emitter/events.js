@@ -420,9 +420,7 @@ var notifications = require('../notifications') // Load Push Events
       async.parallel(
         [
           function (cb) {
-            if (ticket.owner._id.toString() === comment.owner.toString()) return cb
-            if (!_.isUndefined(ticket.assignee) && ticket.assignee._id.toString() === comment.owner.toString())
-              return cb
+            if (ticket.owner._id.toString() === comment.owner.toString()) return cb()
 
             var notification = new NotificationSchema({
               owner: ticket.owner,
@@ -439,7 +437,7 @@ var notifications = require('../notifications') // Load Push Events
           },
           function (cb) {
             if (_.isUndefined(ticket.assignee)) return cb()
-            if (ticket.assignee._id.toString() === comment.owner.toString()) return cb
+            if (ticket.assignee._id.toString() === comment.owner.toString()) return cb()
             if (ticket.owner._id.toString() === ticket.assignee._id.toString()) return cb()
 
             var notification = new NotificationSchema({

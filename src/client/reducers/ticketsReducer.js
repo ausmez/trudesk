@@ -180,9 +180,12 @@ const reducer = handleActions(
         state.viewType,
         ticket.status,
         ticket.assignee ? ticket.assignee._id : undefined,
+        ticket.owner._id,
         action.sessionUser._id,
         userGroupIds,
-        ticket.group._id
+        ticket.group._id,
+        action.sessionUser.role.isAdmin,
+        action.sessionUser.role.isAgent
       )
 
       if (!inView && idx !== -1) {
