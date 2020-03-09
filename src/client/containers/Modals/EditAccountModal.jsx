@@ -186,11 +186,6 @@ class EditAccountModal extends React.Component {
                       ref={r => (this.uploadProfileImage = r)}
                     />
                   </div>
-                  <div className='profile-picture-controls'>
-                    <span className='btn-file' onClick={e => this.onFileBtnClick(e)}>
-                      <i className='material-icons'>file_upload</i>
-                    </span>
-                  </div>
                 </form>
               )}
               {!edit && (
