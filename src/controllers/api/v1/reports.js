@@ -624,7 +624,7 @@ function processReportData (tickets) {
     t.push(ticket.type.name)
     t.push(ticket.priority.name)
     t.push(ticket.statusFormatted)
-    t.push(moment(ticket.date).format('MMM DD, YY HH:mm:ss'))
+    t.push(moment(ticket.date).format('DD MMM, YY HH:mm:ss'))
     t.push(ticket.subject)
     t.push(ticket.owner.fullname)
     t.push(ticket.group.name)

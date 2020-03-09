@@ -63,6 +63,7 @@ apiElasticSearch.status = function (req, res) {
 }
 
 apiElasticSearch.search = function (req, res) {
+  var terms = {};
   var limit = !_.isUndefined(req.query['limit']) ? req.query.limit : 100
   try {
     limit = parseInt(limit)
@@ -83,6 +84,10 @@ apiElasticSearch.search = function (req, res) {
         var g = _.map(groups, function (i) {
           return i._id
         })
+        var filter = { terms: { 'group._id': g } }
+        if (!req.user.role.isAdmin && !req.user.role.isAgent)
+          filter = { term: { 'owner._id': req.user._id } }
+
         // For docker we need to add a unique ID for the index.
         var obj = {
           index: es.indexName,
@@ -115,9 +120,7 @@ apiElasticSearch.search = function (req, res) {
                     tie_breaker: 0.3
                   }
                 },
-                filter: {
-                  terms: { 'group._id': g }
-                }
+                filter: filter
               }
             }
           }

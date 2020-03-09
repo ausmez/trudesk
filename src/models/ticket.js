@@ -943,6 +943,10 @@ ticketSchema.statics.getCountWithObject = function (grpId, object, callback) {
     q.where({ status: { $in: status } })
   }
 
+  if (!_.isUndefined(object.filter) && !_.isUndefined(object.filter.owner)) {
+    q.where({ owner: { $in: object.filter.owner } })
+  }
+
   if (!_.isUndefined(object.filter) && !_.isUndefined(object.filter.assignee)) {
     q.where({ assignee: { $in: object.filter.assignee } })
   }

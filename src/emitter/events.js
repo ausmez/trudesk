@@ -242,6 +242,7 @@ var notifications = require('../notifications') // Load Push Events
                     members,
                     function (member, cb) {
                       if (_.isUndefined(member)) return cb()
+                      if ((!member.role.isAdmin || !member.role.isAgent) && !member._id.equals(ticket.owner._id)) return cb()
 
                       return saveNotification(member, ticket, cb)
                     },

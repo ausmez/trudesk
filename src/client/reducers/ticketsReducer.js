@@ -34,9 +34,10 @@ const initialState = {
 }
 
 // Util function until custom views are finished
-function hasInView (view, status, assignee, userId, userGroupIds, groupId) {
+function hasInView (view, status, assignee, owner, userId, userGroupIds, groupId, isAdmin, isAgent) {
   let hasView = false
   let hasGroup = false
+  let hasOwner = false
   switch (view) {
     case 'filter':
       hasView = true
@@ -72,7 +73,10 @@ function hasInView (view, status, assignee, userId, userGroupIds, groupId) {
   if (isUndefined(userGroupIds) || isUndefined(groupId)) hasGroup = false
   else hasGroup = userGroupIds.indexOf(groupId) !== -1
 
-  return hasGroup && hasView
+  if (isAdmin || isAgent) hasOwner = true
+  else hasOwner = owner === userId
+
+  return hasGroup && hasView && hasOwner
 }
 
 const reducer = handleActions(

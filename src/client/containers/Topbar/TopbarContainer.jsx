@@ -106,8 +106,9 @@ class TopbarContainer extends React.Component {
 
   onSocketShowNotice (data) {
     this.props.showNotice(data)
-    const cookieName = data.name + '_' + helpers.formatDate(data.activeDate, 'MMMDDYYYY_HHmmss')
+    const cookieName = data.name + '_' + helpers.formatDate(data.activeDate, 'DDMMMYYYY')
     this.showNotice(data, cookieName)
+    $('.sidebar').css({'top':'105px','overflow-x':'hidden'})
 
     helpers.resizeAll()
   }
@@ -115,6 +116,7 @@ class TopbarContainer extends React.Component {
   onSocketClearNotice () {
     this.props.clearNotice()
     this.props.hideModal('NOTICE_ALERT')
+    $('.sidebar').removeAttr('style')
 
     helpers.resizeAll()
   }

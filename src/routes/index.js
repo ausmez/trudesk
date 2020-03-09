@@ -230,7 +230,7 @@ function mainRoutes (router, middleware, controllers) {
   )
   router.get('/accounts/agents', middleware.redirectToLogin, middleware.loadCommonData, controllers.accounts.getAgents)
   router.get('/accounts/admins', middleware.redirectToLogin, middleware.loadCommonData, controllers.accounts.getAdmins)
-  router.post('/accounts/uploadimage', middleware.redirectToLogin, controllers.accounts.uploadImage)
+  //router.post('/accounts/uploadimage', middleware.redirectToLogin, controllers.accounts.uploadImage)
   router.get('/accounts/import', middleware.redirectToLogin, middleware.loadCommonData, controllers.accounts.importPage)
   router.post('/accounts/import/csv/upload', middleware.redirectToLogin, controllers.accounts.uploadCSV)
   router.post('/accounts/import/json/upload', middleware.redirectToLogin, controllers.accounts.uploadJSON)

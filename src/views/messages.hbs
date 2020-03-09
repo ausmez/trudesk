@@ -105,7 +105,7 @@
     {{#if data.conversation}}
         <div class="uk-width-7-10 nopadding page-message" style="position:relative;">
             <div id="message-content" class="page-content page-content-right full-height scrollable" data-offset="41" style="margin-bottom: 41px !important;" data-conversation-id="{{data.conversation._id}}">
-                <span class="conversation-start">Conversation Started on {{formatDate data.conversation.createdAt (concat data.common.longDateFormat data.common.timeFormat true true)}}</span>
+                <span class="conversation-start">Conversation started on {{formatDate data.conversation.createdAt (concat data.common.longDateFormat data.common.timeFormat true true)}}</span>
                 {{#if data.conversation.requestingUserMeta.deletedAt}}
                     <span class="conversation-deleted">Conversation Deleted at {{formatDate data.conversation.requestingUserMeta.deletedAt (concat data.common.longDateFormat data.common.timeFormat true true)}}</span>
                 {{/if}}
