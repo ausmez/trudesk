@@ -33,6 +33,8 @@ var sharedVars = require('../socketio/index').shared
 
 var notifications = require('../notifications') // Load Push Events
 
+var moment = require('moment-timezone')
+
 ;(function () {
   notifications.init(emitter)
 
@@ -155,7 +157,7 @@ var notifications = require('../notifications') // Load Push Events
                         if (err) return c(err)
                         if (!template) return c()
 
-                        var context = { base_url: baseUrl, ticket: ticket }
+                        var context = { base_url: baseUrl, ticket: ticket, ticketDate: moment.utc(ticket.date).tz(global.timezone).format('DD MMM, YYYY h:mma') }
 
                         email
                           .render('new-ticket', context)
@@ -165,7 +167,10 @@ var notifications = require('../notifications') // Load Push Events
                               to: emails.join(),
                               subject: subjectParsed,
                               html: html,
-                              generateTextFromHTML: true
+                              generateTextFromHTML: true,
+                              headers: {
+                                'X-Mailer': 'Trudesk'
+                              }
                             }
 
                             mailer.sendMail(mailOptions, function (err) {
