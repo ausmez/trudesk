@@ -197,7 +197,7 @@ class CreateTicketModal extends React.Component {
           <div className='uk-margin-medium-bottom'>
             <Grid>
               {allowAgentUserTickets && (
-                <GridItem width={'1-3'}>
+                <GridItem width={'2-5'}>
                   <label className={'uk-form-label'}>Owner</label>
                   <SingleSelect
                     showTextbox={true}
@@ -208,7 +208,7 @@ class CreateTicketModal extends React.Component {
                   />
                 </GridItem>
               )}
-              <GridItem width={allowAgentUserTickets ? '2-3' : '1-1'}>
+              <GridItem width={allowAgentUserTickets ? '3-5' : '1-1'}>
                 <label className={'uk-form-label'}>Group</label>
                 <SingleSelect
                   showTextbox={false}
@@ -223,7 +223,7 @@ class CreateTicketModal extends React.Component {
           </div>
           <div className='uk-margin-medium-bottom'>
             <Grid>
-              <GridItem width={'1-3'}>
+              <GridItem width={'2-5'}>
                 <label className={'uk-form-label'}>Type</label>
                 <SingleSelect
                   showTextbox={false}
@@ -236,7 +236,7 @@ class CreateTicketModal extends React.Component {
                   ref={i => (this.typeSelect = i)}
                 />
               </GridItem>
-              <GridItem width={'2-3'}>
+              <GridItem width={'3-5'}>
                 <label className={'uk-form-label'}>Tags</label>
                 <SingleSelect
                   showTextbox={false}
