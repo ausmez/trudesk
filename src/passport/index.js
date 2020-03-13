@@ -16,6 +16,7 @@ var passport = require('passport')
 var Local = require('passport-local').Strategy
 var TotpStrategy = require('passport-totp').Strategy
 var JwtStrategy = require('passport-jwt').Strategy
+var LdapStrategy = require('passport-ldapauth').Strategy
 var ExtractJwt = require('passport-jwt').ExtractJwt
 var base32 = require('thirty-two')
 var User = require('../models/user')
@@ -62,6 +63,41 @@ module.exports = function () {
           })
       }
     )
+  )
+
+  passport.use(
+    'ldap',
+    new LdapStrategy(
+      {
+        server: {
+          url: '',
+          bindDN: '',
+          bindCredentials: '',
+          searchBase: '',
+          searchFilter: '(&(objectCategory=person)(objectClass=user)(|(sAMAccountname={{username}})(mail={{username}})))',
+          searchAttributes: ['sAMAccountName','mail']
+        },
+        usernameField: 'login-username',
+        passwordField: 'login-password',
+        passReqToCallback: true
+      },
+      function (req, username, done) {
+        User.findOne({ username: new RegExp('^' + username.sAMAccountName.trim() + '$', 'i') })
+          .exec(function (err, user) {
+            if (err) {
+              return done(err)
+            }
+
+            if (!user || user.deleted) {
+              // Add new LDAP user to the MongoDB?
+              return done(null, false, req.flash('loginMessage', 'No Local Account.'))
+            }
+
+            req.user = user
+
+            return done(null, user)
+          })
+    })
   )
 
   passport.use(

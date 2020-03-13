@@ -241,7 +241,7 @@
                                             </div>
                                             <div class="uk-margin-large-bottom uk-width-1-2">
                                                 <label for="ldap-filter">Search Filter (Defaults to Users)</label>
-                                                <input type="text" class="md-input" name="ldap-filter" required value="(&(objectClass=user)(objectCategory=person))" />
+                                                <input type="text" class="md-input" name="ldap-filter" required value="(&(objectClass=user)(objectCategory=person)(!(UserAccountControl:1.2.840.113556.1.4.803:=2)))" />
                                             </div>
                                         </div>
                                 </section>

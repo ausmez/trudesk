@@ -97,12 +97,18 @@ mainController.dashboard = function (req, res) {
 }
 
 mainController.loginPost = function (req, res, next) {
-  passport.authenticate('local', function (err, user) {
+  //passport.authenticate('local', function (err, user) {
+  passport.authenticate('ldap', function (err, user, info, code) {
     if (err) {
       winston.error(err)
       return next(err)
     }
-    if (!user) return res.redirect('/')
+
+    if (!user) {
+      if (info !== undefined)
+        req.flash('loginMessage', info.message)
+      return res.redirect('/')
+    }
 
     var redirectUrl = '/dashboard'
 

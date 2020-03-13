@@ -157,7 +157,11 @@ var moment = require('moment-timezone')
                         if (err) return c(err)
                         if (!template) return c()
 
-                        var context = { base_url: baseUrl, ticket: ticket, ticketDate: moment.utc(ticket.date).tz(global.timezone).format('DD MMM, YYYY h:mma') }
+                        var context = {
+                          base_url: baseUrl,
+                          ticket: ticket,
+                          ticketDate: moment.utc(ticket.date).tz(global.timezone).format('DD MMM YYYY, h:mma')
+                        }
 
                         email
                           .render('new-ticket', context)
