@@ -157,19 +157,19 @@ var moment = require('moment-timezone')
                         if (err) return c(err)
                         if (!template) return c()
 
+                        ticket.fDate = moment.utc(ticket.date).tz(global.timezone).format('DD MMM YYYY, h:mma')
+
                         var context = {
                           base_url: baseUrl,
-                          ticket: ticket,
-                          ticketDate: moment.utc(ticket.date).tz(global.timezone).format('DD MMM YYYY, h:mma')
+                          ticket: ticket
                         }
 
                         email
                           .render('new-ticket', context)
                           .then(function (html) {
-                            var subjectParsed = global.Handlebars.compile(template.subject)(context)
                             var mailOptions = {
                               to: emails.join(),
-                              subject: subjectParsed,
+                              subject: '[Ticket #' + ticket.uid + '] ' + ticket.subject,
                               html: html,
                               generateTextFromHTML: true,
                               headers: {
@@ -406,7 +406,7 @@ var moment = require('moment-timezone')
     // Goes to client
     io.sockets.emit('updateComments', ticket)
 
-    settingsSchema.getSettingsByName(['tps:enable', 'tps:username', 'tps:apikey', 'mailer:enable'], function (
+    settingsSchema.getSettingsByName(['tps:enable', 'tps:username', 'tps:apikey', 'mailer:enable', 'gen:siteurl'], function (
       err,
       tpsSettings
     ) {
@@ -416,6 +416,7 @@ var moment = require('moment-timezone')
       var tpsUsername = _.head(_.filter(tpsSettings, ['name', 'tps:username']))
       var tpsApiKey = _.head(_.filter(tpsSettings), ['name', 'tps:apikey'])
       var mailerEnabled = _.head(_.filter(tpsSettings), ['name', 'mailer:enable'])
+      var baseUrl = _.head(_.filter(tpsSettings, ['name', 'gen:siteurl'])).value
       mailerEnabled = !mailerEnabled ? false : mailerEnabled.value
 
       if (!tpsEnabled || !tpsUsername || !tpsApiKey) {
@@ -515,15 +516,19 @@ var moment = require('moment-timezone')
 
                   email
                     .render('ticket-comment-added', {
+                      base_url: baseUrl,
                       ticket: ticket,
                       comment: comment
                     })
                     .then(function (html) {
                       var mailOptions = {
                         to: emails.join(),
-                        subject: 'Updated: Ticket #' + ticket.uid + '-' + ticket.subject,
+                        subject: 'RE: [Ticket #' + ticket.uid + '] ' + ticket.subject,
                         html: html,
-                        generateTextFromHTML: true
+                        generateTextFromHTML: true,
+                        headers: {
+                          'X-Mailer': 'Trudesk'
+                        }
                       }
 
                       mailer.sendMail(mailOptions, function (err) {
