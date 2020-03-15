@@ -522,6 +522,7 @@ class SingleTicketContainer extends React.Component {
                       <span className='onoffswitch-switch subscribeSwitch-switch' />
                     </label>
                   </div>
+                  {helpers.canUser('agent:*', true) && (
                   <div className='pagination uk-float-right' style={{ marginRight: 5 }}>
                     <ul className='button-group'>
                       <li className='pagination'>
@@ -537,6 +538,7 @@ class SingleTicketContainer extends React.Component {
                       </li>
                     </ul>
                   </div>
+                  )}
                 </div>
                 <div className='page-content-right full-height scrollable'>
                   <div className='comments-wrapper'>
