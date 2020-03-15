@@ -1526,6 +1526,7 @@ define([
   }
 
   helpers.formatDate = function (date, format) {
+    if (_.isUndefined(date)) return
     var timezone = this.getTimezone()
     if (!timezone) {
       timezone = 'Australia/Adelaide'

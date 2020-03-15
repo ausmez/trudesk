@@ -329,7 +329,7 @@ ticketSchema.methods.setTicketType = function (ownerId, typeId, callback) {
 
     var historyItem = {
       action: 'ticket:set:type',
-      description: 'Ticket type set to: ' + type.name,
+      description: 'Ticket Type set to: ' + type.name,
       owner: ownerId
     }
 
@@ -406,7 +406,7 @@ ticketSchema.methods.setTicketDueDate = function (ownerId, dueDate, callback) {
 
   var historyItem = {
     action: 'ticket:set:duedate',
-    description: 'Ticket Due Date set to: ' + self.dueDate,
+    description: 'Ticket Due Date ' + ((!_.isUndefined(self.dueDate)) ? 'set to: ' + moment(self.dueDate).format("DD-MMM-YYYY") : 'was cleared'),
     owner: ownerId
   }
 

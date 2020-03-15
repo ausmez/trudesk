@@ -514,6 +514,10 @@ var moment = require('moment-timezone')
                   if (err) winston.warn(err)
                   if (err) return c()
 
+                  var statusMap = ['New','Open','Pending','Closed']
+                  ticket.fStatus = statusMap[ticket.status]
+                  comment.fDate = moment.utc(comment.date).tz(global.timezone).format('DD MMM YYYY, h:mma')
+
                   email
                     .render('ticket-comment-added', {
                       base_url: baseUrl,

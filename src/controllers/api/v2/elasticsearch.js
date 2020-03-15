@@ -84,9 +84,6 @@ apiElasticSearch.search = function (req, res) {
         var g = _.map(groups, function (i) {
           return i._id
         })
-        var filter = { terms: { 'group._id': g } }
-        if (!req.user.role.isAdmin && !req.user.role.isAgent)
-          filter = { term: { 'owner._id': req.user._id } }
 
         // For docker we need to add a unique ID for the index.
         var obj = {
@@ -114,16 +111,22 @@ apiElasticSearch.search = function (req, res) {
                       'type.name',
                       'group.name',
                       'comments.comment^3',
-                      'notes.note^3',
                       'dateFormatted'
                     ],
                     tie_breaker: 0.3
                   }
-                },
-                filter: filter
+                }
               }
             }
           }
+        }
+
+        // If user is an admin/agent, then search the notes field as well otherwise
+        // filter results to only tickets owned by the user in their *current* group. 
+        if (req.user.role.isAdmin || req.user.role.isAgent) {
+          obj.body.query.bool.must.multi_match.fields.push('notes.note^3')
+        } else {
+          obj.body.query.bool.filter = [{ term: { 'owner._id': req.user._id }},{ terms: { 'group._id': g }}]
         }
 
         return next(null, obj)

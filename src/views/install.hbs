@@ -549,7 +549,7 @@
                     error: function(e) {
                         $connectBtn.prop('disabled', false).text('Test Connection');
                         window.Snackbar.show({
-                            text: 'Couldn\t connect; make sure connection is correct.',
+                            text: 'Couldn\'t connect; make sure connection is correct.',
                             actionTextColor: 'red'
                         });
                         console.error(e);
@@ -557,7 +557,7 @@
                     success: function(data) {
                         if (!data.success) {
                             window.Snackbar.show({
-                                text: 'Couldn\t connect; make sure connection is correct.',
+                                text: 'Couldn\'t connect; make sure connection is correct.',
                                 actionTextColor: 'red'
                             });
                             $connectBtn.prop('disabled', false).text('Test Connection!');

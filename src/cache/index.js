@@ -57,7 +57,7 @@ function loadConfig () {
 }
 
 var refreshTimer
-var lastUpdated = moment.utc().tz(process.env.TIMEZONE || 'America/New_York')
+var lastUpdated = moment.utc().tz(process.env.TIMEZONE || 'Australia/Adelaide')
 
 truCache.init = function (callback) {
   cache = new NodeCache({

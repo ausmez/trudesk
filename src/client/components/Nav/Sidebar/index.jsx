@@ -105,12 +105,13 @@ class Sidebar extends React.Component {
                 href='/tickets/active'
                 active={activeSubItem === 'tickets-active'}
               />
+              {sessionUser && Helpers.canUser('agent:*') && (
               <SubmenuItem
                 text='Assigned'
                 icon='assignment_ind'
                 href='/tickets/assigned'
                 active={activeSubItem === 'tickets-assigned'}
-              />
+              />)}
               <SubmenuItem
                 text='Unassigned'
                 icon='person_add_disabled'

@@ -285,14 +285,12 @@ class TicketsContainer extends React.Component {
                   <PageTitleButton fontAwesomeIcon={'fa-tasks'} />
                   <Dropdown small={true} width={120}>
                     <DropdownItem text={'Create'} onClick={() => this.props.showModal('CREATE_TICKET')} />
-                    <DropdownSeparator />
-                    <DropdownItem text={'Set Open'} onClick={() => this.onSetStatus(1)} />
-                    <DropdownItem text={'Set Pending'} onClick={() => this.onSetStatus(2)} />
-                    <DropdownItem text={'Set Closed'} onClick={() => this.onSetStatus(3)} />
-                    {helpers.canUser('tickets:delete', true) && <DropdownSeparator />}
-                    {helpers.canUser('tickets:delete', true) && (
-                      <DropdownItem text={'Delete'} extraClass={'text-danger'} onClick={() => this.onDeleteClicked()} />
-                    )}
+                    {helpers.canUser('tickets:update', true) && ([<DropdownSeparator />,
+                    <DropdownItem text={'Set Open'} onClick={() => this.onSetStatus(1)} />,
+                    <DropdownItem text={'Set Pending'} onClick={() => this.onSetStatus(2)} />,
+                    <DropdownItem text={'Set Closed'} onClick={() => this.onSetStatus(3)} />])}
+                    {helpers.canUser('tickets:delete', true) && ([<DropdownSeparator />,
+                    <DropdownItem text={'Delete'} extraClass={'text-danger'} onClick={() => this.onDeleteClicked()} />])}
                   </Dropdown>
                 </DropdownTrigger>
                 <div className={'uk-float-right'}>
