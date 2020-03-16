@@ -38,7 +38,7 @@ apiElasticSearch.status = function (req, res) {
       function (done) {
         es.getIndexCount(function (err, data) {
           if (err) return done(err)
-          response.indexCount = !_.isUndefined(data.count) ? data.count : 0
+          response.indexCount = !_.isUndefined(data.body.count) ? data.body.count : 0
           return done()
         })
       },

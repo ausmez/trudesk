@@ -17,7 +17,7 @@ var path = require('path')
 var async = require('async')
 var nconf = require('nconf')
 var winston = require('winston')
-var elasticsearch = require('elasticsearch')
+var elasticsearch = require('@elastic/elasticsearch')
 var emitter = require('../emitter')
 var moment = require('moment-timezone')
 var settingUtil = require('../settings/settingsUtil')
@@ -29,10 +29,7 @@ function checkConnection (callback) {
   if (!ES.esclient) return callback('Elasticsearch client not initialized. Restart Trudesk!')
 
   ES.esclient.ping(
-    {
-      requestTimeout: 10000
-    },
-    function (err) {
+    function (err, result) {
       if (err) return callback('Could not connect to Elasticsearch: ' + ES.host)
 
       return callback()
@@ -45,7 +42,8 @@ ES.testConnection = function (callback) {
   else ES.host = nconf.get('elasticsearch:host') + ':' + nconf.get('elasticsearch:port')
 
   ES.esclient = new elasticsearch.Client({
-    host: ES.host
+    node: ES.host,
+    pingTimeout: 10000
   })
 
   checkConnection(callback)
@@ -60,9 +58,8 @@ ES.setupHooks = function () {
     ES.esclient.delete(
       {
         index: ES.indexName,
-        type: 'doc',
         id: _id.toString(),
-        refresh: 'true'
+        refresh: true
       },
       function (err) {
         if (err) winston.warn('Elasticsearch Error: ' + err)
@@ -106,9 +103,8 @@ ES.setupHooks = function () {
       ES.esclient.index(
         {
           index: ES.indexName,
-          type: 'doc',
           id: ticket._id.toString(),
-          refresh: 'true',
+          refresh: true,
           body: cleanedTicket
         },
         function (err) {
@@ -157,11 +153,11 @@ ES.setupHooks = function () {
       ES.esclient.index(
         {
           index: ES.indexName,
-          type: 'doc',
           id: _id,
+          refresh: true,
           body: cleanedTicket
         },
-        function (err) {
+        function (err, result) {
           if (err) winston.warn('Elasticsearch Error: ' + err)
         }
       )
@@ -174,7 +170,7 @@ ES.buildClient = function (host) {
     ES.esclient.close()
   }
   ES.esclient = new elasticsearch.Client({
-    host: host,
+    node: host,
     pingTimeout: 10000,
     maxRetries: 5
   })

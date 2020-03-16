@@ -35,7 +35,7 @@ const searchReducer = handleActions(
       return {
         ...state,
         loading: false,
-        results: fromJS(action.response.hits.hits)
+        results: fromJS(action.response.body.hits.hits)
       }
     },
 

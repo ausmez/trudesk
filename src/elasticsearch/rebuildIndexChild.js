@@ -1,5 +1,5 @@
 var async = require('async')
-var elasticsearch = require('elasticsearch')
+var elasticsearch = require('@elastic/elasticsearch')
 var winston = require('winston')
 var moment = require('moment-timezone')
 var database = require('../database')
@@ -56,31 +56,22 @@ function setupDatabase (callback) {
 
 function setupClient () {
   ES.esclient = new elasticsearch.Client({
-    host: process.env.ELASTICSEARCH_URI,
+    node: process.env.ELASTICSEARCH_URI,
     pingTimeout: 10000,
     maxRetries: 5
   })
 }
 
 function deleteIndex (callback) {
-  ES.esclient.indices.exists(
+  ES.esclient.indices.delete(
     {
-      index: ES.indexName
+      index: ES.indexName,
+      ignore_unavailable: true
     },
-    function (err, exists) {
+    function (err) {
       if (err) return callback(err)
-      if (exists) {
-        ES.esclient.indices.delete(
-          {
-            index: ES.indexName
-          },
-          function (err) {
-            if (err) return callback(err)
 
-            return callback()
-          }
-        )
-      } else return callback()
+      return callback()
     }
   )
 }
@@ -89,6 +80,7 @@ function createIndex (callback) {
   ES.esclient.indices.create(
     {
       index: ES.indexName,
+      include_type_name: true,
       body: {
         settings: {
           index: {
@@ -121,7 +113,7 @@ function createIndex (callback) {
           }
         },
         mappings: {
-          doc: {
+          _doc: {
             properties: {
               uid: {
                 type: 'text',
@@ -198,15 +190,18 @@ function sendAndEmptyQueue (bulk, callback) {
   if (bulk.length > 0) {
     ES.esclient.bulk(
       {
-        body: bulk,
-        timeout: '3m'
+        index: ES.indexName,
+        type: '_doc',
+        refresh: true,
+        timeout: '3m',
+        body: bulk
       },
       function (err) {
         if (err) {
           process.send({ success: false })
           return process.exit()
         } else {
-          winston.debug('Sent ' + bulk.length + ' documents to Elasticsearch!')
+          winston.debug('Sent ' + bulk.length/2 + ' documents to Elasticsearch!')
           if (typeof callback === 'function') return callback()
         }
       }
@@ -229,7 +224,7 @@ function crawlUsers (callback) {
   stream
     .on('data', function (doc) {
       count += 1
-      bulk.push({ index: { _index: ES.indexName, _type: 'doc', _id: doc._id } })
+      bulk.push({ index: { _index: ES.indexName, _id: doc._id } })
       bulk.push({
         datatype: 'user',
         username: doc.username,
@@ -239,7 +234,7 @@ function crawlUsers (callback) {
         role: doc.role
       })
 
-      if (count % 200 === 1) bulk = sendAndEmptyQueue(bulk)
+      if (count % 200 === 0) bulk = sendAndEmptyQueue(bulk)
     })
     .on('error', function (err) {
       winston.error(err)
@@ -248,7 +243,7 @@ function crawlUsers (callback) {
     })
     .on('close', function () {
       winston.debug('Document Count: ' + count)
-      winston.debug('Duration is: ' + (new Date().getTime() - startTime))
+      winston.debug('Duration is: ' + ((new Date().getTime() - startTime)/1000) + 's')
       bulk = sendAndEmptyQueue(bulk)
 
       return callback()
@@ -271,7 +266,7 @@ function crawlTickets (callback) {
       stream.pause()
       count += 1
 
-      bulk.push({ index: { _index: ES.indexName, _type: 'doc', _id: doc._id } })
+      bulk.push({ index: { _index: ES.indexName, _id: doc._id } })
       var comments = []
       if (doc.comments !== undefined) {
         doc.comments.forEach(function (c) {
@@ -326,7 +321,7 @@ function crawlTickets (callback) {
         tags: doc.tags
       })
 
-      if (count % 200 === 1) bulk = sendAndEmptyQueue(bulk)
+      if (count % 200 === 0) bulk = sendAndEmptyQueue(bulk)
 
       stream.resume()
     })
@@ -337,7 +332,7 @@ function crawlTickets (callback) {
     })
     .on('close', function () {
       winston.debug('Document Count: ' + count)
-      winston.debug('Duration is: ' + (new Date().getTime() - startTime))
+      winston.debug('Duration is: ' + ((new Date().getTime() - startTime)/1000) + 's')
       bulk = sendAndEmptyQueue(bulk, callback)
     })
 }
