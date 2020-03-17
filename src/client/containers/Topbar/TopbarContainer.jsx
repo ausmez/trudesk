@@ -188,6 +188,7 @@ class TopbarContainer extends React.Component {
                       </li>
                     )}
                     {/* End Create Ticket Perm */}
+                    {sessionUser && helpers.canUser('agent:*') && (
                     <li className='top-bar-icon'>
                       <PDropdownTrigger target={'conversations'}>
                         <a
@@ -199,6 +200,7 @@ class TopbarContainer extends React.Component {
                         </a>
                       </PDropdownTrigger>
                     </li>
+                    )}
                     <li className='top-bar-icon'>
                       <PDropdownTrigger target={'notifications'}>
                         <a title={'Notifications'} className={'no-ajaxy uk-vertical-align'}>
@@ -211,6 +213,7 @@ class TopbarContainer extends React.Component {
                         </a>
                       </PDropdownTrigger>
                     </li>
+                    {sessionUser && helpers.canUser('agent:*') && (
                     <li className='top-bar-icon'>
                       <OffCanvasTrigger target={'online-user-list'}>
                         <a title={'Online Users'} className='no-ajaxy'>
@@ -226,6 +229,7 @@ class TopbarContainer extends React.Component {
                         </a>
                       </OffCanvasTrigger>
                     </li>
+                    )}
                     <li className='top-bar-icon nopadding nohover'>
                       <i className='material-icons separator'>remove</i>
                     </li>

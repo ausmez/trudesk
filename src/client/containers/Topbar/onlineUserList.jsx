@@ -97,6 +97,7 @@ class OnlineUserListPartial extends React.Component {
                   if (this.props.sessionUser && value.user._id === this.props.sessionUser._id) return
                   const image = value.user.image || 'defaultProfile.jpg'
                   const isAgentOrAdmin = value.user.role.isAdmin || value.user.role.isAgent
+                  if (isAgentOrAdmin) {
                   return (
                     <li key={key}>
                       <a className={'no-ajaxy'} onClick={e => OnlineUserListPartial.onUserClicked(e, value.user._id)}>
@@ -111,7 +112,7 @@ class OnlineUserListPartial extends React.Component {
                         </div>
                       </a>
                     </li>
-                  )
+                  )}
                 })}
               </ul>
             </div>

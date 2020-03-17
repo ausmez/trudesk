@@ -27,6 +27,9 @@ var messagesController = {}
 messagesController.content = {}
 
 messagesController.get = function (req, res) {
+  if (!req.user.role.isAdmin && !req.user.role.isAgent) {
+    return res.redirect('/')
+  }
   var content = {}
   content.title = 'Messages'
   content.nav = 'messages'
@@ -96,6 +99,9 @@ messagesController.get = function (req, res) {
 }
 
 messagesController.getConversation = function (req, res) {
+  if (!req.user.role.isAdmin && !req.user.role.isAgent) {
+    return res.redirect('/')
+  }
   var cid = req.params.convoid
   if (_.isUndefined(cid)) return handleError(res, 'Invalid Conversation ID!')
 
