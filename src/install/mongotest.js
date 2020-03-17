@@ -39,7 +39,7 @@ winston.add(winston.transports.Console, {
 })
 ;(function () {
   var CONNECTION_URI = process.env.MONGOTESTURI
-  if (!CONNECTION_URI) return process.send({ error: { message: 'Invalid connection uri' } })
+  if (!CONNECTION_URI) return process.send({ error: { message: 'Invalid connection URI' } })
   var options = {
     keepAlive: 0,
     auto_reconnect: false,

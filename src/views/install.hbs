@@ -285,7 +285,7 @@
                 <form id="elasticConnection" class="uk-form-stacked uk-clearfix">
                     <div class="uk-margin-medium-bottom">
                         <label for="elastic-host">Server</label>
-                        <input id="elastic-host" name="elastic-host" class="md-input" type="text" value="localhost" />
+                        <input id="elastic-host" name="elastic-host" class="md-input" type="text" value="http://localhost" />
                     </div>
                     <div class="uk-margin-medium-bottom">
                         <label for="elastic-port">Port</label>
@@ -517,7 +517,7 @@
                                 console.log(data);
                             } else {
                                 window.Snackbar.show({
-                                    text: 'Configuration File Saved!'
+                                    text: 'Configuration file saved!'
                                 });
                                 var $savingConfig = $('#savingConfig');
                                 var $restartSlide = $('#restartSlide');
@@ -549,7 +549,7 @@
                     error: function(e) {
                         $connectBtn.prop('disabled', false).text('Test Connection');
                         window.Snackbar.show({
-                            text: 'Couldn\'t connect; make sure connection is correct.',
+                            text: 'Unable to connect. Verify connection settings and try again.',
                             actionTextColor: 'red'
                         });
                         console.error(e);
@@ -557,7 +557,7 @@
                     success: function(data) {
                         if (!data.success) {
                             window.Snackbar.show({
-                                text: 'Couldn\'t connect; make sure connection is correct.',
+                                text: 'Unable to connect. Verify connection settings and try again.',
                                 actionTextColor: 'red'
                             });
                             $connectBtn.prop('disabled', false).text('Test Connection!');
@@ -569,7 +569,7 @@
                             };
 
                             window.Snackbar.show({
-                                text: 'Elasticsearch Connection Successful!'
+                                text: 'Elasticsearch connection successful!'
                             });
 
                             advanceSlide();
@@ -596,7 +596,7 @@
                     error: function(e) {
                         $connectBtn.prop('disabled', false).text('Test Connection!');
                         window.Snackbar.show({
-                            text: 'Couldn\'t connect; make sure connection is correct.',
+                            text: 'Unable to connect. Verify connection settings and try again.',
                             actionTextColor: 'red'
                         });
                         console.error(e);
@@ -604,7 +604,7 @@
                     success: function(data) {
                         if (!data.success) {
                             window.Snackbar.show({
-                                text: 'Couldn\'t connect; make sure connection is correct.',
+                                text: 'Unable to connect. Verify connection settings and try again.',
                                 actionTextColor: 'red'
                             });
                             $connectBtn.prop('disabled', false).text('Test Connection!');

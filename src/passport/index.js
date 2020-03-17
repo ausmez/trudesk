@@ -90,7 +90,7 @@ module.exports = function () {
 
             if (!user || user.deleted) {
               // Add new LDAP user to the MongoDB?
-              return done(null, false, req.flash('loginMessage', 'No Local Account.'))
+              return done(null, false, req.flash('loginMessage', 'No Trudesk account.'))
             }
 
             req.user = user
