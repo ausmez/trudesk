@@ -136,6 +136,7 @@ class Sidebar extends React.Component {
             </Submenu>
           </SidebarItem>
         )}
+        {sessionUser && Helpers.canUser('agent:*', true) && (
         <SidebarItem
           text='Messages'
           icon='chat'
@@ -143,6 +144,7 @@ class Sidebar extends React.Component {
           class='navMessages'
           active={activeItem === 'messages'}
         />
+        )}
         {sessionUser && Helpers.canUser('accounts:view') && (
           <SidebarItem
             text='Accounts'
