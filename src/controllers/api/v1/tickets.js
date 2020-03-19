@@ -1436,7 +1436,7 @@ apiTickets.getTicketStats = function (req, res) {
     obj.lastUpdated = moment
       .utc(obj.lastUpdated)
       .tz(tz)
-      .format('MM-DD-YYYY hh:mm:ssa')
+      .format('DD-MM-YYYY hh:mm:ssa')
 
     return res.send(obj)
   })
